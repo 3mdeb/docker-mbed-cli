@@ -1,18 +1,22 @@
-FROM ubuntu:latest
+FROM ubuntu:16.04
 
-MAINTAINER MacRat <m@crat.jp>
+MAINTAINER maciej.pijanowski <maciej.pijanowski@3mdeb.com>
 
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y python2.7 python-pip software-properties-common git mercurial
-RUN add-apt-repository ppa:team-gcc-arm-embedded/ppa
-RUN apt-get update && apt-get upgrade -y
-RUN apt-get install -y gcc-arm-none-eabi
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y python2.7 python-pip software-properties-common git \
+    mercurial gcc-arm-none-eabi
 
-RUN pip install mbed-cli PrettyTable
+COPY requirements.txt /
 
-RUN mbed toolchain -G GCC_ARM
+RUN pip install mbed-cli && \
+    pip install -r requirements.txt
 
-RUN mkdir /src
+RUN mkdir -p /home/build
 
-WORKDIR /src
+WORKDIR /home/build
+
+RUN /usr/local/bin/mbed toolchain  --global GCC_ARM
+
+ADD VERSION .
+
 ENTRYPOINT ["/usr/local/bin/mbed"]
