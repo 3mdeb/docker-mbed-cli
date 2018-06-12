@@ -10,7 +10,7 @@ usage
 =====
 ## make mbed project
 ``` sh
-$ docker run --rm -v $PWD:/src 3mdeb/docker-mbed-cli new project-name
+$ docker run --rm -v $PWD:/home/build 3mdeb/docker-mbed-cli new project-name
 $ cd project-name
 $ ls
 ```
@@ -32,7 +32,7 @@ int main() {
 
 ## compile
 ``` sh
-	$ docker run --rm -v $PWD:/src 3mdeb/docker-mbed-cli compile -m BOARD_NAME
+	$ docker run --rm -v $PWD:/home/build 3mdeb/docker-mbed-cli compile -m BOARD_NAME
 ```
 Please replace BOARD\_NAME with your board model name.
 
