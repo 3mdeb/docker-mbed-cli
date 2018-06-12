@@ -17,4 +17,6 @@ WORKDIR /home/build
 
 RUN /usr/local/bin/mbed toolchain  --global GCC_ARM
 
+ADD VERSION .
+
 ENTRYPOINT ["/usr/local/bin/mbed"]
