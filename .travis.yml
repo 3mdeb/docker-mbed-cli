@@ -1,0 +1,28 @@
+env:
+  global:
+  - secure: 5hPgf1fzYBNC0epeEEphf+djEV9CWw0+X7OD8H+fbMNZfMsgiuVCpeg2Gygc22dRaJBW4BVHwqeb4HB4R2IVlhG2x/U1DNvk7VoRRAtLIPbZ5rJyIbTqXVix5Vhzoiend4gYbhullz58muV67iuSVuUXDUCSWJRKRWijVuub+D4rqW8RHPaAkOSvkWUZ5C0u75B96uEbFrqaWTSxiJ6kIhcxeoKF6p+1atkMxQ5E0Krm9z6g7F3fw522y+SM7tQ2YzM8trrMjkYKofj2cf4FioQzp5pvjl9KQTqDAzs/qZT1ehwkKL2qUFbwv4mXWX93lkSuludn3ZUyT0CBE9ENNldC9/EHF9TcCzVXG4xI6hDEezPcjcj6ADL33Hy6DDuJI10lmoDA+D+mJV3aWBa+770IY+orRSwdrcnT+hnPjuWHwju8RLWcrRQg35FOAS+eyyRvTrlTjnYRSNf0th7u9uxSyE2JPUZ6cJrIBlg9hzw90V94aXlHbW5Urdh9fiOSuBYcku87IdtVZg0Upw/2xRQVgGgtUGy311DBtTqXvVhKiE91niblz0qbL3hO2OoVBxol2KCTMEIH4Qsz0znQ4fuxAH3F6Am+fR6/qmbMNZe0jx7TwMm1l1KdWpcRtIWpAykHaNpD0y/9EA5iE7CG4KbGE/WBzjTpWOX3XcBcYQI=
+  - secure: CTzwA4JH9CTPGdUtM+KIWeYDdU2ZxdDorwJjMaC1bxL6SF30Wk/4pHArEtTFi7zreKOy9IBC89dwnXM7/KbEduiBbDXAhIjDxvJRJayfZ5rzHFpxQ+iuCiKZn5NF3vIV5VWGQdrWV32o11yQAPI9FQAGyV7jRBsC7gciRasUqFzpnkiQHRkqfjOBujFZZShX4tNjzINQJoar9NSx/jdt1KHnSBFdNDd23NNUsgir4BrX7Aqmqq3S2OKX6sa2yhHtNeEan35Oa/+dqgEgI8njSQoDWOP9IbaGU4pJa0cRVZ3d3iF+U2XH0P5B1X/KnJrV5XR3Mwz8GASoQaef7v+z4NDmQzCuDF7AqGR4Bip2XHm5r0Yi2vYxHSXIPcledzgi/bNMi+azfNCD8bxQ3xM4JDbMjaWhtE0obdU08L/TiyuvDjhGUD9CF0zOE1KJ2PugFHMnRdLLVphMz7y85BY2b/UVZM0qIikgORCaPsE29rjHM3i53oOEa6k5U7cwcAR4Dx3X+BS+VROU1Fm/WXCo8QE18JrxsBNXTC2DLuBM634Nwu3RfwSeNP4m+Ze0s6l+LrvYkCtdKN0mTbD6tCLTNhfkKoXOviIlI0NaJtb1adl3/HHhv+C0lTp8IociAZr7OXzoT4PKXX93LilAIiGJGf3fh4Ghe+saIhsx9sMp1ec=
+  - MANAGER_SH="release-manager.sh"
+  - MANAGER_URL="https://raw.githubusercontent.com/3mdeb/docker-release-manager/master/release-manager.sh"
+
+sudo: required
+
+services:
+  - docker
+
+before_script:
+  - wget -O $MANAGER_SH $MANAGER_URL
+
+script:
+  - bash $MANAGER_SH build
+
+after_script:
+  - docker images
+
+deploy:
+  skip_cleanup: true
+  provider: script
+  script:
+    - bash $MANAGER_SH push
+  on:
+    branch: master
